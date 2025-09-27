@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Your QR Code</title>
+</head>
+<body>
+    <h2>Scan this QR code in your Authenticator App</h2>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code"><br><br>
+
+    <form method="POST" action="/verify">
+        <input type="hidden" name="username" value="{{ username }}">
+        <label for="token">Enter the 6-digit token:</label><br>
+        <input type="text" name="token" required><br><br>
+        <input type="submit" value="Verify Token">
+    </form>
+</body>
+</html>
