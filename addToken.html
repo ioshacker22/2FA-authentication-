@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Token</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <h2>{{ _('Add a New Service Token') }}</h2>
+    <form method="POST" action="/add_token">
+        <label>{{ _('Service Name:') }}</label><br>
+        <input type="text" name="service" required><br><br>
+        <input type="submit" value="{{ _('Generate Token') }}">
+    </form>
+</body>
+</html>
