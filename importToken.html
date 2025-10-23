@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Import Tokens</title>
+</head>
+<body class="container mt-5">
+    <h2>{{ _('Import Token Backup') }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="backup" accept=".json" required><br><br>
+        <input type="submit" value="{{ _('Upload') }}" class="btn btn-primary">
+    </form>
+</body>
+</html>
