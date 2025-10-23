@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Verify OTP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
     <h2>Hello {{ username }}! Enter your 6-digit code</h2>
@@ -13,22 +15,3 @@
     </form>
 </body>
 </html>
-@app.route("/verify", methods=["POST"])
-def verify():
-    username = request.form["username"]
-    token = request.form["token"]
-
-    user = users.get(username)
-    if not user:
-        return "User not found"
-
-    secret = user["secret"]
-    totp = pyotp.TOTP(secret)
-
-    if totp.verify(token):
-        return render_template("success.html", username=username)
-    else:
-        return "Invalid token. Please try again."
-
-        <br><br>
-<a href="/"><button>Back to Home</button></a>
