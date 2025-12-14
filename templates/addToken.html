@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Add a New Service Token') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="container">
+    <h1>{{ _('Add a New Service Token') }}</h1>
+
+    <form method="POST">
+        <label for="serviceName">{{ _('Service Name:') }}</label>
+        <input type="text" id="serviceName" name="serviceName" required>
+
+        <button type="submit">{{ _('Generate Token') }}</button>
+    </form>
+
+    <div class="top-links">
+        <a href="{{ url_for('dashboard') }}">{{ _('Back to Dashboard') }}</a>
+    </div>
+</div>
+</body>
+</html>
+
