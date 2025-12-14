@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Verify OTP</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<div class="container">
     <h2>Hello {{ username }}! Enter your 6-digit code</h2>
+    
+    {% if error %}
+    <p style="color: #ff6b6b; text-align: center;">{{ error }}</p>
+    {% endif %}
+    
     <form method="POST" action="/verify">
         <input type="hidden" name="username" value="{{ username }}">
+        
         <label for="token">Authenticator Code:</label>
-        <input type="text" name="token" required><br><br>
-        <input type="submit" value="Verify">
+        <input type="text" id="token" name="token" required maxlength="6" pattern="[0-9]{6}">
+
+        <button type="submit">Verify</button>
     </form>
+
+    <div class="top-links">
+        <a href="{{ url_for('login') }}">Back to Login</a>
+    </div>
+</div>
 </body>
 </html>

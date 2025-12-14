@@ -1,27 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
-         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="container mt-5">
-    <h2>{{ _('Welcome, ') }}{{ username }}</h2>
-    <p>{{ _('Your saved tokens:') }}</p>
-    <table class="table table-bordered">
-        <thead><tr><th>Service</th><th>Current Code</th><th>Action</th></tr></thead>
+<body>
+<div class="container" style="max-width: 700px;">
+    <h2>Welcome, {{ username }}</h2>
+    <p>Your saved tokens:</p>
+    
+    {% if tokens %}
+    <table>
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Current Code</th>
+                <th>Action</th>
+            </tr>
+        </thead>
         <tbody>
         {% for token in tokens %}
             <tr>
                 <td>{{ token.service }}</td>
-                <td>{{ pyotp.TOTP(token.secret).now() }}</td>
-                <td><a href="/delete_token/{{ token.id }}" class="btn btn-danger btn-sm">Delete</a></td>
+                <td style="font-family: monospace; font-size: 18px; font-weight: bold;">{{ token.code }}</td>
+                <td>
+                    <a href="/delete_token/{{ token.id }}" 
+                       style="color: #ff6b6b; text-decoration: none;"
+                       onclick="return confirm('Delete this token?')">Delete</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="/add_token" class="btn btn-primary">Add Token</a>
-    <a href="/import_token" class="btn btn-secondary">Import</a>
-    <a href="/export_tokens" class="btn btn-success">Export</a>
-    <a href="/logout" class="btn btn-dark">Logout</a>
+    {% else %}
+    <p style="text-align: center; opacity: 0.7; margin: 30px 0;">No tokens saved yet. Add one below!</p>
+    {% endif %}
+    
+    <a href="/add_token" class="btn">Add Token</a>
+    <a href="/import_token" class="btn" style="background: #6c757d;">Import</a>
+    <a href="/export_tokens" class="btn" style="background: #28a745;">Export</a>
+    <a href="/logout" class="btn" style="background: #343a40;">Logout</a>
+</div>
 </body>
 </html>

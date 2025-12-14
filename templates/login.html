@@ -1,20 +1,31 @@
-<!-- templates/login.html -->
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Login</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<div class="container">
     <h2>Login</h2>
+    
+    {% if error %}
+    <p style="color: #ff6b6b; text-align: center;">{{ error }}</p>
+    {% endif %}
+    
     <form method="POST" action="/login">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Login">
+        <button type="submit">Login</button>
     </form>
+
+    <div class="top-links">
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</div>
 </body>
 </html>

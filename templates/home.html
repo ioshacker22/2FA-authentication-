@@ -1,22 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <title>Home - My 2FA App</title>
+    <meta charset="UTF-8">
+    <title>Welcome to My 2FA App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
+<div class="container">
     <h1>Welcome to My 2FA App</h1>
+
     <p>Please choose an action:</p>
-    <form method="GET" action="/" style="float:right;">
-    <select name="lang" onchange="this.form.submit()">
-        <option value="en" {% if get_locale() == 'en' %}selected{% endif %}>English</option>
-        <option value="fr" {% if get_locale() == 'fr' %}selected{% endif %}>Français</option>
-        <option value="es" {% if get_locale() == 'es' %}selected{% endif %}>Español</option>
-    </select>
-</form>
 
-
-    <a href="/login"><button>Login</button></a>
-    <a href="/register"><button>Register</button></a>
+    <a class="btn" href="{{ url_for('login') }}">Login</a>
+    <a class="btn" href="{{ url_for('register') }}">Register</a>
+</div>
 </body>
 </html>
