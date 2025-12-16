@@ -168,6 +168,19 @@ Home Page → Register → QR Code Scan → Dashboard with Tokens
    export DATABASE_URL="postgresql://user:pass@localhost/dbname"
    ```
 
+   ## Setup & Run
+
+##```bash
+git clone https://github.com/ioshacker22/2FA-authentication-
+cd 2FA-authentication-
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+python app.py
+
+
 ## API Endpoints
 
 | Endpoint | Method | Description |
