@@ -293,7 +293,7 @@ export FLASK_DEBUG=True
 python app.py
 ```
 
-## 📊 Logging
+##  Logging
 
 Application logs are written to `app.log` with the following information:
 - User registration and login events
