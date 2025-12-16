@@ -312,7 +312,7 @@ tail -f app.log
 # Install test dependencies
 pip install pytest pytest-flask
 
-# Run tests (if test suite exists)
+# Run tests 
 pytest
 ```
 
