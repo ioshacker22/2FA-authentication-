@@ -1,46 +1,40 @@
 # 2FA Authentication App
 
-A Flask-based Two-Factor Authentication (2FA) application that allows users to manage TOTP (Time-based One-Time Password) tokens for multiple services.
+A secure Flask-based Two-Factor Authentication (2FA) application with TOTP token management, rate limiting, and production-ready features.
 
-## Features
+## 🚀 Features
 
-- 🔐 **User Registration & Login** with password hashing
-- 📱 **QR Code Generation** for easy authenticator app setup
-- 🔑 **TOTP Token Management** - Add, view, and delete 2FA tokens for multiple services
-- 💾 **Import/Export** - Backup and restore your tokens as JSON
-- 🎨 **Modern UI** - Clean, responsive design with glassmorphism effects
-- 🔒 **Secure** - Bcrypt password hashing and session management
+* 🔐 **Secure Authentication** - Bcrypt password hashing with strong password requirements
+* 📱 **QR Code Generation** - Easy authenticator app setup
+* 🔑 **Multi-Service TOTP** - Manage 2FA tokens for multiple services
+* 💾 **Import/Export** - Backup and restore tokens as JSON
+* 🎨 **Modern UI** - Responsive design with glassmorphism effects
+* 🛡️ **Security Features**:
+  - CSRF protection
+  - Rate limiting on critical endpoints
+  - Session management with timeout
+  - Input validation and sanitization
+  - Secure password requirements
+  - Logging for security events
+* 📦 **Production Ready** - Docker support, health checks, environment configuration
 
-## Screenshots
+## 📋 Prerequisites
 
-```
-Home Page → Register → QR Code Scan → Dashboard with Tokens
-```
+* Python 3.8 or higher
+* pip (Python package manager)
+* (Optional) Docker and Docker Compose
 
-## Tech Stack
+## 🔧 Installation
 
-- **Backend**: Flask, SQLAlchemy
-- **Security**: Bcrypt, PyOTP
-- **Database**: SQLite
-- **Frontend**: HTML5, CSS3
-- **Libraries**: QRCode, Pillow
+### Option 1: Standard Installation
 
-## Installation
-
-### Prerequisites
-
-- Python 3.7 or higher
-- pip (Python package manager)
-
-### Setup Steps
-
-1. **Clone or download the repository**
+1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd 2FA-authentication-Minty
+   git clone https://github.com/ioshacker22/2FA-authentication-.git
+   cd 2FA-authentication-
    ```
 
-2. **Create a virtual environment (recommended)**
+2. **Create virtual environment**
    ```bash
    python3 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -48,241 +42,323 @@ Home Page → Register → QR Code Scan → Dashboard with Tokens
 
 3. **Install dependencies**
    ```bash
-   pip install flask flask-sqlalchemy pyotp qrcode bcrypt pillow
+   pip install -r requirements.txt
    ```
 
-4. **Project structure should look like this:**
-   ```
-   2FA-authentication-Minty/
-   ├── app.py
-   ├── templates/
-   │   ├── home.html
-   │   ├── register.html
-   │   ├── login.html
-   │   ├── verify.html
-   │   ├── qr.html
-   │   ├── dashboard.html
-   │   ├── addToken.html
-   │   └── importToken.html
-   └── static/
-       └── style.css
+4. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env and set your SECRET_KEY
    ```
 
 5. **Run the application**
    ```bash
-   python3 app.py
+   python app.py
    ```
 
-6. **Open your browser**
+6. **Access the app**
    ```
    http://127.0.0.1:5000
    ```
 
-## Usage
+### Option 2: Docker Installation
 
-### First Time Registration
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ioshacker22/2FA-authentication-.git
+   cd 2FA-authentication-
+   ```
 
-1. Click **Register** on the home page
-2. Enter a username and password
-3. Scan the QR code with your authenticator app:
-   - Google Authenticator
-   - Microsoft Authenticator
-   - Authy
-   - Any TOTP-compatible app
-4. Enter the 6-digit code from your app
-5. You're logged in!
+2. **Set environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env and set your SECRET_KEY
+   ```
 
-### Login
+3. **Build and run with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
 
-1. Click **Login**
-2. Enter your credentials
-3. Enter the current 6-digit code from your authenticator app
-4. Access your dashboard
+4. **Access the app**
+   ```
+   http://localhost:5000
+   ```
+
+## 🔒 Security Features
+
+### Password Requirements
+- Minimum 8 characters
+- At least one uppercase letter
+- At least one lowercase letter
+- At least one number
+
+### Rate Limiting
+- Registration: 5 per hour
+- Login: 10 per minute
+- Token operations: 20-30 per hour
+- Global: 200 per day, 50 per hour
+
+### Session Security
+- HTTP-only cookies
+- 30-minute session timeout
+- Secure cookies in production (HTTPS)
+- CSRF protection on all forms
+
+## 📁 Project Structure
+
+```
+2FA-authentication-/
+├── app.py                 # Main application with security improvements
+├── config.py              # Configuration management
+├── requirements.txt       # Python dependencies
+├── Dockerfile            # Docker configuration
+├── docker-compose.yml    # Docker Compose setup
+├── .env.example          # Environment variables template
+├── .gitignore            # Git ignore rules
+├── templates/
+│   ├── home.html
+│   ├── register.html
+│   ├── login.html
+│   ├── verify.html
+│   ├── qr.html
+│   ├── dashboard.html
+│   ├── addToken.html
+│   └── importToken.html
+├── static/
+│   └── style.css
+└── instance/             # Database and logs (gitignored)
+    └── 2fa.db
+```
+
+## 🔐 Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+```bash
+# Required for production
+SECRET_KEY=your-super-secret-key-min-32-characters
+
+# Optional - defaults provided
+FLASK_ENV=production
+DATABASE_URL=sqlite:///2fa.db
+SESSION_COOKIE_SECURE=True
+PERMANENT_SESSION_LIFETIME=1800
+```
+
+## 🚀 Production Deployment
+
+### Important Production Settings
+
+1. **Generate a strong SECRET_KEY**
+   ```bash
+   python -c "import secrets; print(secrets.token_hex(32))"
+   ```
+
+2. **Update .env file**
+   ```bash
+   SECRET_KEY=<generated-key-from-step-1>
+   FLASK_ENV=production
+   FLASK_DEBUG=False
+   SESSION_COOKIE_SECURE=True
+   ```
+
+3. **Use a production database**
+   ```bash
+   # PostgreSQL example
+   DATABASE_URL=postgresql://user:password@localhost/dbname
+   ```
+
+4. **Run with production server**
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -b 0.0.0.0:5000 app:app
+   ```
+
+5. **Use HTTPS** (required for secure cookies)
+   - Use nginx or Apache as reverse proxy
+   - Configure SSL certificates (Let's Encrypt recommended)
+
+6. **Enable proper logging**
+   ```bash
+   mkdir logs
+   # Logs are automatically written to app.log
+   ```
+
+### Docker Production Deployment
+
+```bash
+# Build and run
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop
+docker-compose down
+```
+
+## 📖 Usage Guide
+
+### First Time Setup
+
+1. **Register an account**
+   - Click "Register" on home page
+   - Enter username (3-20 alphanumeric characters)
+   - Enter strong password (meets all requirements)
+   - Scan QR code with authenticator app
+   - Enter 6-digit verification code
+
+2. **Login**
+   - Enter username and password
+   - Enter current 6-digit code from authenticator app
 
 ### Managing Tokens
 
-#### Add a Token
-- Click **Add Token** on the dashboard
-- Enter the service name (e.g., "GitHub", "Gmail")
-- A new TOTP token will be generated
+#### Add Token
+1. Click "Add Token" on dashboard
+2. Enter service name (e.g., "GitHub", "Gmail")
+3. New TOTP token generated automatically
 
-#### View Current Codes
-- All your tokens are displayed on the dashboard
-- Codes refresh every 30 seconds automatically
+#### View Codes
+- Dashboard displays all tokens with current codes
+- Codes refresh every 30 seconds
 
-#### Export Tokens (Backup)
-- Click **Export** to download a JSON file
-- Save this file securely for backup purposes
+#### Export Tokens
+1. Click "Export" button
+2. Save JSON file securely
+3. Use for backup or migration
 
-#### Import Tokens (Restore)
-- Click **Import**
-- Upload a previously exported JSON file
-- All tokens will be restored
+#### Import Tokens
+1. Click "Import" button
+2. Upload previously exported JSON file
+3. Tokens are restored to your account
 
-#### Delete a Token
-- Click **Delete** next to any token
-- Confirm the deletion
+#### Delete Token
+1. Click "Delete" next to any token
+2. Token is permanently removed
 
-## Security Considerations
+## 🛠️ API Endpoints
 
-### For Development
-- Uses SQLite database (`2fa.db`)
-- Debug mode is enabled
-- Secret key can be default
+| Endpoint | Method | Rate Limit | Description |
+|----------|--------|------------|-------------|
+| `/` | GET | - | Home page |
+| `/register` | GET, POST | 5/hour | User registration |
+| `/login` | GET, POST | 10/min | User login |
+| `/verify` | POST | 10/min | 2FA verification |
+| `/dashboard` | GET | - | User dashboard |
+| `/add_token` | GET, POST | 20/hour | Add new token |
+| `/delete_token/<id>` | GET | 30/hour | Delete token |
+| `/export_tokens` | GET | 10/hour | Export as JSON |
+| `/import_token` | GET, POST | 10/hour | Import from JSON |
+| `/logout` | GET | - | Logout |
+| `/health` | GET | - | Health check |
 
-### For Production Deployment
+## 🐛 Troubleshooting
 
-⚠️ **Important: Do NOT deploy with default settings**
+### Common Issues
 
-1. **Set a strong SECRET_KEY**
-   ```bash
-   export SECRET_KEY="your-very-strong-random-secret-key-here"
-   ```
-
-2. **Disable debug mode** in `app.py`:
-   ```python
-   app.run(debug=False)
-   ```
-
-3. **Use a production WSGI server**
-   ```bash
-   pip install gunicorn
-   gunicorn -w 4 app:app
-   ```
-
-4. **Use HTTPS** - Never serve over plain HTTP in production
-
-5. **Use a production database**
-   - PostgreSQL or MySQL instead of SQLite
-   - Update `SQLALCHEMY_DATABASE_URI` in `app.py`
-
-6. **Add additional security**
-   - CSRF protection (Flask-WTF)
-   - Rate limiting (Flask-Limiter)
-   - Input validation
-   - Security headers
-
-7. **Environment variables**
-   ```bash
-   export SECRET_KEY="your-secret-key"
-   export DATABASE_URL="postgresql://user:pass@localhost/dbname"
-   ```
-
-   ## Setup & Run
-
-##```bash
-git clone https://github.com/ioshacker22/2FA-authentication-
-cd 2FA-authentication-
-
-python3 -m venv venv
-source venv/bin/activate
-
-pip install -r requirements.txt
-python app.py
-
-
-## API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Home page |
-| `/register` | GET, POST | User registration |
-| `/login` | GET, POST | User login |
-| `/verify` | POST | 2FA verification |
-| `/dashboard` | GET | User dashboard |
-| `/add_token` | GET, POST | Add new token |
-| `/delete_token/<id>` | GET | Delete token |
-| `/export_tokens` | GET | Export tokens as JSON |
-| `/import_token` | GET, POST | Import tokens from JSON |
-| `/logout` | GET | Logout user |
-
-## Database Schema
-
-### User Table
-- `id` - Primary key
-- `username` - Unique username
-- `password` - Bcrypt hashed password
-- `secret` - Base32 TOTP secret
-
-### Token Table
-- `id` - Primary key
-- `user_id` - Foreign key to User
-- `service` - Service name
-- `secret` - Base32 TOTP secret
-
-## Troubleshooting
-
-### Module Not Found Errors
+**Module not found errors**
 ```bash
 pip install --upgrade pip
-pip install flask flask-sqlalchemy pyotp qrcode bcrypt pillow
+pip install -r requirements.txt
 ```
 
-### Port Already in Use
-Edit `app.py` and change the port:
-```python
-app.run(debug=True, port=5001)
-```
-
-### Database Issues
-Delete the database and restart:
+**Port already in use**
 ```bash
-rm 2fa.db
-python3 app.py
+# Change port in app.py or use environment variable
+export FLASK_RUN_PORT=5001
+python app.py
 ```
 
-### QR Code Not Displaying
-- Check that Pillow is installed: `pip install pillow`
-- Verify the `static/` folder exists
-
-## Dependencies
-
-```
-Flask>=2.3.0
-Flask-SQLAlchemy>=3.0.0
-pyotp>=2.9.0
-qrcode>=7.4.0
-bcrypt>=4.0.0
-Pillow>=10.0.0
+**Database locked errors**
+```bash
+# Stop all instances and restart
+pkill -f app.py
+python app.py
 ```
 
-## Contributing
+**Rate limit errors**
+- Wait for the specified time period
+- Check if you're being rate limited incorrectly
+- Review logs in `app.log`
+
+### Development Mode
+
+To run in development mode with auto-reload:
+
+```bash
+export FLASK_ENV=development
+export FLASK_DEBUG=True
+python app.py
+```
+
+## 📊 Logging
+
+Application logs are written to `app.log` with the following information:
+- User registration and login events
+- Token operations (add, delete, import, export)
+- Security events (failed logins, rate limits)
+- Errors and exceptions
+
+View logs:
+```bash
+tail -f app.log
+```
+
+## 🧪 Testing
+
+```bash
+# Install test dependencies
+pip install pytest pytest-flask
+
+# Run tests (if test suite exists)
+pytest
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
-## License
+## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Flask framework for the web application
-- PyOTP for TOTP implementation
-- QRCode library for QR code generation
-- Bcrypt for secure password hashing
+* Flask framework
+* PyOTP for TOTP implementation
+* QRCode library
+* Bcrypt for password hashing
+* Flask-Limiter for rate limiting
+* Flask-WTF for CSRF protection
 
-## Support
+## 📞 Support
 
-If you encounter any issues or have questions:
-1. Check the Troubleshooting section
-2. Open an issue on GitHub
-3. Review the Flask documentation: https://flask.palletsprojects.com/
+For issues, questions, or contributions:
+- Open an issue on GitHub
+- Check existing issues and documentation
+- Review logs for error details
 
-## Roadmap
+## 🗺️ Roadmap
 
-- [ ] Add backup codes for account recovery
-- [ ] Implement email verification
-- [ ] Add support for U2F/WebAuthn
-- [ ] Mobile-responsive improvements
-- [ ] Dark/Light theme toggle
-- [ ] Multi-language support
-- [ ] Password strength meter
+- [x] User authentication with 2FA
+- [x] TOTP token management
+- [x] Import/Export functionality
+- [x] Rate limiting
+- [x] CSRF protection
+- [x] Docker support
+- [ ] Backup codes for recovery
+- [ ] Email verification
+- [ ] WebAuthn/U2F support
+- [ ] Mobile app
 - [ ] Account activity log
+- [ ] Multi-language support
 
 ---
 
-**Made with ❤️ using Flask**
+**Built with ❤️ using Flask | Secure by Design**
