@@ -11,9 +11,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///2fa.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-# ---------------------------------------------------------
-# DATABASE MODELS
-# ---------------------------------------------------------
+
+# DATABASE MODELS #
 class User(db.Model):
     """
     Stores registered users:
@@ -38,9 +37,8 @@ class Token(db.Model):
 with app.app_context():
     db.create_all()
 
-# ---------------------------------------------------------
-# HELPER FUNCTIONS
-# ---------------------------------------------------------
+
+# HELPER FUNCTIONS # 
 def generate_qr_uri(username, secret):
     """Generate Base64 QR code for Google Authenticator."""
     otp_uri = pyotp.TOTP(secret).provisioning_uri(
@@ -52,9 +50,8 @@ def generate_qr_uri(username, secret):
     img.save(buffer, format="PNG")
     return base64.b64encode(buffer.getvalue()).decode()
 
-# ---------------------------------------------------------
-# ROUTES
-# ---------------------------------------------------------
+
+# ROUTEs# 
 @app.route("/")
 def home():
     return render_template("home.html")
