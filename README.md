@@ -109,13 +109,16 @@ A secure Flask-based Two-Factor Authentication (2FA) application with TOTP token
 
 ```
 2FA-authentication-/
-├── app.py                 # Main application with security improvements
-├── config.py              # Configuration management
+.
+├── app.py                 # Main Flask application
+├── config.py              # Environment-based configuration
 ├── requirements.txt       # Python dependencies
-├── Dockerfile            # Docker configuration
-├── docker-compose.yml    # Docker Compose setup
-├── .env.example          # Environment variables template
-├── .gitignore            # Git ignore rules
+├── dockerfile             # Docker image definition
+├── docker-compose.yml     # Docker service configuration
+├── setup.sh               # Local setup helper script
+├── .env.example           # Environment variable template
+├── LICENSE                # MIT License
+├── README.md
 ├── templates/
 │   ├── home.html
 │   ├── register.html
