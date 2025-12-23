@@ -134,6 +134,27 @@ A secure Flask-based Two-Factor Authentication (2FA) application with TOTP token
     └── 2fa.db
 ```
 
+
+## Authentication Flow
+
+1. User registers with username and password
+2. Password is hashed using bcrypt
+3. A TOTP secret is generated and stored
+4. QR code is shown for authenticator apps
+5. On login, password is verified
+6. User submits TOTP code
+7. Token is validated using pyotp
+8. Session is established
+
+   
+## Security Considerations
+
+- Passwords are never stored in plaintext
+- TOTP secrets are generated server-side
+- Sessions are required for protected routes
+- Invalid credentials return generic error messages
+- Tokens are time-based and expire automatically
+
 ##  Environment Variables
 
 Create a `.env` file based on `.env.example`:
